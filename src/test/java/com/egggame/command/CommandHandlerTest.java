@@ -10,6 +10,9 @@ import com.egggame.storage.PetStorage;
 import com.egggame.storage.PlayerStorage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -21,7 +24,7 @@ class CommandHandlerTest {
     private PlayerStorage playerStorage;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws IOException {
         Config config = new Config();
         SpeciesData speciesData = new SpeciesData();
         playerStorage = new PlayerStorage();

@@ -1,0 +1,37 @@
+{
+  "mole_granny_3": {
+    "id": "mole_granny_3",
+    "ownerId": 1710432028,
+    "speciesId": "mole_granny",
+    "level": 1,
+    "obtainedAt": "2026-10-14T23:52:36.3628926"
+  },
+   {
+    "id": "dog_bird_2",
+    "ownerId": 1710432028,
+    "speciesId": "dog_bird",
+    "level": 1,
+    "obtainedAt": "2026-10-14T23:51:15.9866915"
+  },
+  "mouse_4": {
+    "id": "mouse_4",
+    "ownerId": 630954638,
+    "speciesId": "mouse",
+    "level": 1,
+    "obtainedAt": "2026-10-15T13:08:07.450029"
+  },
+  "mole_monster_1": {
+    "id": "mole_monster_1",
+    "ownerId": 630954638,
+    "speciesId": "mole_monster",
+    "level": 1,
+    "obtainedAt": "2026-10-14T23:47:45.4071011"
+  },
+  "penguin_tuxedo_5": {
+    "id": "penguin_tuxedo_5",
+    "ownerId": 1198218983,
+    "speciesId": "penguin_tuxedo",
+    "level": 1,
+    "obtainedAt": "2026-10-29T15:57:13.970489"
+  }
+}

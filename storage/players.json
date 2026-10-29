@@ -1,0 +1,69 @@
+{
+  "630954638": {
+    "telegramId": 630954638,
+    "username": "Peleiwjhe",
+    "eggs": 1,
+    "lastDailyAt": "2026-10-15T13:07:50.9249013",
+    "petIds": [
+      "mole_monster_1",
+      "mouse_4"
+    ]
+  },
+  "444": {
+    "telegramId": 444,
+    "username": "TestUser",
+    "eggs": 0,
+    "petIds": []
+  },
+  "1198218983": {
+    "telegramId": 1198218983,
+    "username": "Hersgoryu",
+    "eggs": 1,
+    "lastDailyAt": "2026-10-29T15:57:27.5001741",
+    "petIds": [
+      "penguin_tuxedo_5"
+    ]
+  },
+  "333": {
+    "telegramId": 333,
+    "username": "TestUser",
+    "eggs": 1,
+    "lastDailyAt": "2026-10-29T15:22:25.7281278",
+    "petIds": []
+  },
+  "123456789": {
+    "telegramId": 123456789,
+    "username": "TestPlayer",
+    "eggs": 1,
+    "petIds": []
+  },
+  "222": {
+    "telegramId": 222,
+    "username": "TestUser",
+    "eggs": 1,
+    "lastDailyAt": "2026-10-29T15:22:25.744574",
+    "petIds": []
+  },
+  "1710432028": {
+    "telegramId": 1710432028,
+    "username": "whiskey_enjoyer",
+    "eggs": 2,
+    "lastDailyAt": "2026-10-14T23:52:19.9367565",
+    "petIds": [
+      "dog_bird_2",
+      "mole_granny_3"
+    ]
+  },
+  "987654321": {
+    "telegramId": 987654321,
+    "username": "TestPlayer2",
+    "eggs": 0,
+    "petIds": []
+  },
+  "111": {
+    "telegramId": 111,
+    "username": "TestUser",
+    "eggs": 0,
+    "petIds": []
+  }
+}
