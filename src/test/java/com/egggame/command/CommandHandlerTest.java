@@ -1,6 +1,6 @@
 package com.egggame.command;
 
-import com.egggame.config.Config;
+import com.egggame.Config;
 import com.egggame.data.SpeciesData;
 import com.egggame.service.EggService;
 import com.egggame.service.IncubatorService;
@@ -10,6 +10,9 @@ import com.egggame.storage.PetStorage;
 import com.egggame.storage.PlayerStorage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -21,7 +24,7 @@ class CommandHandlerTest {
     private PlayerStorage playerStorage;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws IOException {
         Config config = new Config();
         SpeciesData speciesData = new SpeciesData();
         playerStorage = new PlayerStorage();
@@ -32,7 +35,8 @@ class CommandHandlerTest {
         PetService petService = new PetService(speciesData, petStorage);
         IncubatorService incubatorService = new IncubatorService(config, petService);
 
-        commandHandler = new CommandHandler(playerService, eggService, incubatorService, petService, speciesData);
+        commandHandler = new CommandHandler(
+                playerService, eggService, incubatorService, petService, speciesData);
     }
 
     @Test
