@@ -1,0 +1,27 @@
+# =====================================================
+#  Конфигурация бота EGGGAME (ОБРАЗЕЦ)
+#  Скопируй этот файл в bot.properties и вставь токен
+# =====================================================
+
+# Токен бота от @BotFather
+bot.token=PASTE_YOUR_TOKEN_HERE
+bot.username=egggame_official_bot
+
+# Прокси для доступа к Telegram API (true/false)
+proxy.enabled=true
+proxy.host=127.0.0.1
+proxy.port=10809
+
+# --- Таймеры в обычном режиме ---
+# Кулдаун /daily в часах
+daily.cooldown.hours=24
+# Диапазон инкубации в часах (время выбирается случайно внутри)
+incubator.min.hours=6
+incubator.max.hours=12
+
+# --- DEBUG-режим (демонстрация на паре) ---
+# true: яйцо вылупляется за debug.hatch.seconds секунд,
+#       /daily доступен раз в debug.daily.cooldown.seconds секунд
+debug.enabled=false
+debug.hatch.seconds=5
+debug.daily.cooldown.seconds=20

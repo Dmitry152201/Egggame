@@ -1,0 +1,19 @@
+# IDE
+.idea/
+*.iml
+.vscode/
+.project
+.classpath
+.settings/
+
+# Артефакты сборки Maven
+target/
+
+# Локальный конфиг с токеном: в git не коммитим
+bot.properties
+
+# Файлы хранилища (создаются при работе бота)
+storage/
+
+# Логи
+*.log
