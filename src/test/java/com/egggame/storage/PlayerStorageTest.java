@@ -4,7 +4,7 @@ import com.egggame.model.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;   // ← добавлено
+import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,7 +16,7 @@ class PlayerStorageTest {
     private PlayerStorage playerStorage;
 
     @BeforeEach
-    void setUp() throws IOException {           // ← добавлено throws IOException
+    void setUp() throws IOException {
         playerStorage = new PlayerStorage();
     }
 
