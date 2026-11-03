@@ -1,6 +1,6 @@
 package com.egggame.service;
 
-import com.egggame.Config;
+import com.egggame.config.Config;
 import com.egggame.model.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

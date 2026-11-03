@@ -1,4 +1,4 @@
-package com.egggame;
+package com.egggame.config;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -2,6 +2,7 @@ package com.egggame;
 
 import com.egggame.command.CommandHandler;
 import com.egggame.command.CommandResponse;
+import com.egggame.config.Config;
 import com.egggame.model.Species;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;

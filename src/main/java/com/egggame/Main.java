@@ -1,6 +1,7 @@
 package com.egggame;
 
 import com.egggame.command.CommandHandler;
+import com.egggame.config.Config;
 import com.egggame.data.SpeciesData;
 import com.egggame.service.EggService;
 import com.egggame.service.IncubatorService;
