@@ -12,5 +12,7 @@ target/
 # Локальный конфиг с токеном: в git не коммитим
 bot.properties
 
+/storageData/
+
 # Логи
 *.log

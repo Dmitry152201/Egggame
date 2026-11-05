@@ -24,8 +24,8 @@ import java.util.stream.Collectors;
  */
 public class PetStorage {
 
-    /** Путь к файлу хранилища */
-    private static final String STORAGE_FILE = "storage/pets.json";
+    /** Путь к файлу хранилища (ИЗМЕНЕНО на storageData) */
+    private static final String STORAGE_FILE = "storageData/pets.json";
 
     /** Gson с кастомным адаптером для LocalDateTime */
     private final Gson gson = new GsonBuilder()
@@ -66,7 +66,6 @@ public class PetStorage {
             }
         } catch (IOException | JsonSyntaxException e) {
             System.err.println("⚠️ Ошибка загрузки питомцев (файл повреждён или пуст, начинаем с чистого листа): " + e.getMessage());
-            // Бот не падает, а просто продолжает работу с пустой картой
         }
     }
 
@@ -75,7 +74,8 @@ public class PetStorage {
      */
     public void save() {
         try {
-            Files.createDirectories(Path.of("storage"));
+            // ИЗМЕНЕНО: Создаем папку storageData
+            Files.createDirectories(Path.of("storageData"));
             try (Writer writer = Files.newBufferedWriter(Path.of(STORAGE_FILE))) {
                 gson.toJson(pets, writer);
             }
@@ -89,11 +89,12 @@ public class PetStorage {
      *
      * @param ownerId   Telegram ID владельца
      * @param speciesId ID вида питомца
+     * @param traits    Список врожденных черт
      * @return созданный питомец
      */
-    public Pet createPet(long ownerId, String speciesId) {
+    public Pet createPet(long ownerId, String speciesId, List<String> traits) {
         String id = speciesId + "_" + nextId++;
-        Pet pet = new Pet(id, ownerId, speciesId, 1, LocalDateTime.now());
+        Pet pet = new Pet(id, ownerId, speciesId, 1, LocalDateTime.now(), traits);
         pets.put(id, pet);
         save();
         return pet;

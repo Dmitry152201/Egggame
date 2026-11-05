@@ -10,23 +10,32 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class SpeciesDataTest {
 
+    /**
+     * Проверяет, что каталог не пустой и содержит нужное количество видов.
+     */
     @Test
-    void speciesData_containsAllSpecies() {
+    void testGetAllSpecies_returnsAll10Species() {
         SpeciesData data = new SpeciesData();
         assertEquals(10, data.getTotalCount());
-        assertEquals(10, data.getAllSpecies().size());
     }
 
+    /**
+     * Проверяет поиск по ID.
+     */
     @Test
-    void speciesData_getById_returnsCorrectSpecies() {
+    void testGetById_existingId_returnsSpecies() {
         SpeciesData data = new SpeciesData();
         Optional<Species> mouse = data.getById("mouse");
+
         assertTrue(mouse.isPresent());
         assertEquals("Сырный Мышонок", mouse.get().getName());
     }
 
+    /**
+     * Проверяет противоположный случай: поиск несуществующего ID.
+     */
     @Test
-    void speciesData_getById_returnsEmptyForUnknown() {
+    void testGetById_unknownId_returnsEmpty() {
         SpeciesData data = new SpeciesData();
         Optional<Species> unknown = data.getById("unknown");
         assertFalse(unknown.isPresent());

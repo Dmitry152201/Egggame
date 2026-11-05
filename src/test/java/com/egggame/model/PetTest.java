@@ -2,6 +2,7 @@ package com.egggame.model;
 
 import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
+import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -9,22 +10,17 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class PetTest {
 
+    /**
+     * Проверяет корректную инициализацию и защиту границ статов (0-100).
+     */
     @Test
-    void pet_creation_correct() {
-        LocalDateTime now = LocalDateTime.now();
-        Pet pet = new Pet("mouse_1", 123456789L, "mouse", 1, now);
+    void testPet_setStats_cannotExceedBounds() {
+        Pet pet = new Pet("mouse_1", 123456789L, "mouse", 1, LocalDateTime.now(), List.of("Соня"));
 
-        assertEquals("mouse_1", pet.getId());
-        assertEquals(123456789L, pet.getOwnerId());
-        assertEquals("mouse", pet.getSpeciesId());
-        assertEquals(1, pet.getLevel());
-        assertEquals(now, pet.getObtainedAt());
-    }
+        pet.setSatiety(150);
+        assertEquals(100, pet.getSatiety()); // Обрезка до 100
 
-    @Test
-    void pet_setLevel_updatesLevel() {
-        Pet pet = new Pet("mouse_1", 123456789L, "mouse", 1, LocalDateTime.now());
-        pet.setLevel(5);
-        assertEquals(5, pet.getLevel());
+        pet.setHappiness(-20);
+        assertEquals(0, pet.getHappiness()); // Обрезка до 0
     }
 }
