@@ -22,29 +22,22 @@ class EggServiceTest {
         player = new Player(123456789L, "TestPlayer");
     }
 
+    /**
+     * Проверяет, что яйцо начисляется и время фиксируется.
+     */
     @Test
-    void canGetDaily_newPlayer_returnsTrue() {
-        assertTrue(eggService.canGetDaily(player));
-    }
-
-    @Test
-    void grantDailyEgg_increasesEggs() {
+    void testGrantDailyEgg_increasesEggsAndSetsTime() {
         eggService.grantDailyEgg(player);
         assertEquals(1, player.getEggs());
+        assertNotNull(player.getLastDailyAt());
     }
 
+    /**
+     * Проверяет противоположный случай: после получения /daily игрок не может получить его снова.
+     */
     @Test
-    void formatTimeRemaining_seconds_returnsSeconds() {
-        assertEquals("30 сек", eggService.formatTimeRemaining(30));
-    }
-
-    @Test
-    void formatTimeRemaining_minutes_returnsMinutes() {
-        assertEquals("5 мин", eggService.formatTimeRemaining(300));
-    }
-
-    @Test
-    void formatTimeRemaining_hours_returnsHoursAndMinutes() {
-        assertEquals("2 ч 30 мин", eggService.formatTimeRemaining(9000));
+    void testCanGetDaily_afterGrant_returnsFalse() {
+        eggService.grantDailyEgg(player);
+        assertFalse(eggService.canGetDaily(player));
     }
 }

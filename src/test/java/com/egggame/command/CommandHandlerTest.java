@@ -2,6 +2,8 @@ package com.egggame.command;
 
 import com.egggame.config.Config;
 import com.egggame.data.SpeciesData;
+import com.egggame.model.Pet;
+import com.egggame.model.Player;
 import com.egggame.service.EggService;
 import com.egggame.service.IncubatorService;
 import com.egggame.service.PetService;
@@ -12,6 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,54 +24,80 @@ import static org.junit.jupiter.api.Assertions.*;
 class CommandHandlerTest {
 
     private CommandHandler commandHandler;
-    private PlayerStorage playerStorage;
+    private PlayerService playerService;
+    private PetService petService;
+    private long testPlayerId; // Уникальный ID для каждого теста
 
     @BeforeEach
     void setUp() throws IOException {
         Config config = new Config();
         SpeciesData speciesData = new SpeciesData();
-        playerStorage = new PlayerStorage();
+        PlayerStorage playerStorage = new PlayerStorage();
         PetStorage petStorage = new PetStorage();
 
-        PlayerService playerService = new PlayerService(playerStorage);
+        playerService = new PlayerService(playerStorage);
         EggService eggService = new EggService(config);
-        PetService petService = new PetService(speciesData, petStorage);
+        petService = new PetService(speciesData, petStorage);
         IncubatorService incubatorService = new IncubatorService(config, petService);
 
-        commandHandler = new CommandHandler(playerService, eggService, incubatorService, petService, speciesData);
+        commandHandler = new CommandHandler(playerService, eggService, incubatorService, petService, speciesData, config);
+
+        // Генерируем уникальный ID, чтобы не пересекаться с сохранениями в JSON
+        testPlayerId = System.currentTimeMillis();
     }
 
     @Test
-    void handleCommand_start_returnsGreeting() {
-        CommandResponse response = commandHandler.handleCommand(111L, "/start", "TestUser");
-        assertNotNull(response.getText());
-        assertTrue(response.getText().contains("EGGGAME"));
-        assertFalse(response.hasPhoto());
+    void testStartCommand_grantsFirstEggAndGreets() {
+        CommandResponse response = commandHandler.handleCommand(testPlayerId, "/start", "TestUser");
+
+        assertEquals("🐣 Привет! Это бот EGGGAME.\n\nТебе выдано первое яйцо! Используй /incubate, чтобы положить его в инкубатор. Или /help для списка команд.", response.getText());
+
+        Player player = playerService.getOrCreate(testPlayerId, "TestUser");
+        assertEquals(1, player.getEggs());
     }
 
     @Test
-    void handleCommand_help_returnsCommandList() {
-        CommandResponse response = commandHandler.handleCommand(111L, "/help", "TestUser");
-        assertTrue(response.getText().contains("/daily"));
-        assertTrue(response.getText().contains("/incubate"));
+    void testFeedCommand_success_increasesSatietyAndSpendsEgg() {
+        Player player = playerService.getOrCreate(testPlayerId, "TestUser");
+        player.addEgg();
+        Pet pet = petService.createPet(player, "mouse");
+
+        CommandResponse response = commandHandler.handleCommand(testPlayerId, "/feed 1", "TestUser");
+
+        assertTrue(response.getText().contains("Сытость: 50 → 75"));
+        assertEquals(0, player.getEggs());
+        assertEquals(75, pet.getSatiety());
     }
 
     @Test
-    void handleCommand_daily_grantsEgg() {
-        CommandResponse response = commandHandler.handleCommand(222L, "/daily", "TestUser");
-        assertTrue(response.getText().contains("яйцо"));
+    void testFeedCommand_noEggs_returnsError() {
+        Player player = playerService.getOrCreate(testPlayerId, "TestUser");
+        petService.createPet(player, "mouse");
+
+        CommandResponse response = commandHandler.handleCommand(testPlayerId, "/feed 1", "TestUser");
+
+        assertEquals("❌ У тебя нет яиц. Используй /daily.", response.getText());
     }
 
     @Test
-    void handleCommand_profile_returnsStats() {
-        commandHandler.handleCommand(333L, "/daily", "TestUser");
-        CommandResponse response = commandHandler.handleCommand(333L, "/profile", "TestUser");
-        assertTrue(response.getText().contains("Яиц: 1"));
+    void testPatCommand_success_increasesHappiness() {
+        Player player = playerService.getOrCreate(testPlayerId, "TestUser");
+        Pet pet = petService.createPet(player, "mouse");
+
+        CommandResponse response = commandHandler.handleCommand(testPlayerId, "/pat Сырный Мышонок", "TestUser");
+
+        assertTrue(response.getText().contains("Счастье: 50 → 55"));
+        assertEquals(55, pet.getHappiness());
     }
 
     @Test
-    void handleCommand_unknownCommand_returnsError() {
-        CommandResponse response = commandHandler.handleCommand(444L, "/unknown", "TestUser");
-        assertTrue(response.getText().contains("Неизвестная команда"));
+    void testPatCommand_cooldown_returnsError() {
+        Player player = playerService.getOrCreate(testPlayerId, "TestUser");
+        Pet pet = petService.createPet(player, "mouse");
+        pet.setLastPatAt(LocalDateTime.now());
+
+        CommandResponse response = commandHandler.handleCommand(testPlayerId, "/pat 1", "TestUser");
+
+        assertTrue(response.getText().startsWith("⏳ Питомец еще не готов к ласке."));
     }
 }

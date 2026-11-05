@@ -47,8 +47,9 @@ public class Main {
             PetService petService = new PetService(speciesData, petStorage);
             IncubatorService incubatorService = new IncubatorService(config, petService);
 
+            // ОБНОВЛЕНО: Добавили config в конструктор
             CommandHandler commandHandler = new CommandHandler(
-                    playerService, eggService, incubatorService, petService, speciesData
+                    playerService, eggService, incubatorService, petService, speciesData, config
             );
 
             Bot bot = new Bot(botOptions, config, commandHandler);
