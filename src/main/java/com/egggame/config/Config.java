@@ -130,4 +130,18 @@ public class Config {
         }
         return Long.parseLong(props.getProperty("incubator.max.hours", "12")) * 3600L;
     }
+
+    /**
+     * Возвращает кулдаун /pat в секундах.
+     * В обычном режиме берется из pat.cooldown.hours (по умолчанию 2 часа).
+     * В дебаг-режиме берется из debug.pat.cooldown.seconds (по умолчанию 10 секунд).
+     *
+     * @return кулдаун поглаживания в секундах
+     */
+    public long getPatCooldownSeconds() {
+        if (isDebugEnabled()) {
+            return Long.parseLong(props.getProperty("debug.pat.cooldown.seconds", "10"));
+        }
+        return Long.parseLong(props.getProperty("pat.cooldown.hours", "2")) * 3600L;
+    }
 }

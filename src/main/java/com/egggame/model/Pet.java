@@ -1,11 +1,13 @@
 package com.egggame.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Конкретный экземпляр питомца у игрока.
  * В отличие от Species (шаблона вида), Pet — это живой питомец
- * с уникальным id, уровнем и датой получения.
+ * с уникальным id, уровнем, потребностями и эмоциями.
  */
 public class Pet {
 
@@ -24,74 +26,67 @@ public class Pet {
     /** Дата и время получения питомца */
     private final LocalDateTime obtainedAt;
 
+    // ========= ПОЛЯ ДЛЯ ЗАДАЧИ 2 (ТАМАГОЧИ) =========
+
+    /** Сытость питомца от 0 до 100 */
+    private int satiety;
+
+    /** Счастье питомца от 0 до 100 */
+    private int happiness;
+
+    /** Врожденные черты характера */
+    private List<String> traits;
+
+    /** Время последнего поглаживания (для кулдауна /pat) */
+    private LocalDateTime lastPatAt;
+
+    /** Время последнего пересчета статов (для фонового голода) */
+    private LocalDateTime lastUpdatedAt;
+
     /**
      * Создаёт экземпляр питомца.
-     *
-     * @param id         уникальный идентификатор питомца
-     * @param ownerId    Telegram ID владельца
-     * @param speciesId  ID вида питомца
-     * @param level      начальный уровень
-     * @param obtainedAt дата и время получения
      */
-    public Pet(String id, long ownerId, String speciesId, int level, LocalDateTime obtainedAt) {
+    public Pet(String id, long ownerId, String speciesId, int level,
+               LocalDateTime obtainedAt, List<String> traits) {
         this.id = id;
         this.ownerId = ownerId;
         this.speciesId = speciesId;
         this.level = level;
         this.obtainedAt = obtainedAt;
+        this.traits = traits != null ? new ArrayList<>(traits) : new ArrayList<>();
+
+        // Базовые показатели при рождении
+        this.satiety = 50;
+        this.happiness = 50;
+        this.lastUpdatedAt = LocalDateTime.now();
     }
 
-    /**
-     * Возвращает уникальный идентификатор питомца.
-     *
-     * @return id питомца
-     */
-    public String getId() {
-        return id;
-    }
+    public String getId() { return id; }
+    public long getOwnerId() { return ownerId; }
+    public String getSpeciesId() { return speciesId; }
+    public int getLevel() { return level; }
+    public void setLevel(int level) { this.level = level; }
+    public LocalDateTime getObtainedAt() { return obtainedAt; }
+
+    public int getSatiety() { return satiety; }
+    public void setSatiety(int satiety) { this.satiety = Math.max(0, Math.min(100, satiety)); }
+
+    public int getHappiness() { return happiness; }
+    public void setHappiness(int happiness) { this.happiness = Math.max(0, Math.min(100, happiness)); }
 
     /**
-     * Возвращает Telegram ID владельца.
-     *
-     * @return id владельца
+     * Возвращает список черт. Защищен от null для старых сохранений.
      */
-    public long getOwnerId() {
-        return ownerId;
+    public List<String> getTraits() {
+        if (traits == null) {
+            traits = new ArrayList<>();
+        }
+        return traits;
     }
 
-    /**
-     * Возвращает ID вида питомца.
-     *
-     * @return id вида
-     */
-    public String getSpeciesId() {
-        return speciesId;
-    }
+    public LocalDateTime getLastPatAt() { return lastPatAt; }
+    public void setLastPatAt(LocalDateTime lastPatAt) { this.lastPatAt = lastPatAt; }
 
-    /**
-     * Возвращает уровень питомца.
-     *
-     * @return текущий уровень
-     */
-    public int getLevel() {
-        return level;
-    }
-
-    /**
-     * Устанавливает уровень питомца.
-     *
-     * @param level новый уровень
-     */
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
-    /**
-     * Возвращает дату и время получения питомца.
-     *
-     * @return момент получения
-     */
-    public LocalDateTime getObtainedAt() {
-        return obtainedAt;
-    }
+    public LocalDateTime getLastUpdatedAt() { return lastUpdatedAt; }
+    public void setLastUpdatedAt(LocalDateTime lastUpdatedAt) { this.lastUpdatedAt = lastUpdatedAt; }
 }

@@ -18,10 +18,14 @@ daily.cooldown.hours=24
 # Диапазон инкубации в часах (время выбирается случайно внутри)
 incubator.min.hours=6
 incubator.max.hours=12
+# Кулдаун поглаживания (/pat) в часах
+pat.cooldown.hours=2
 
 # --- DEBUG-режим (демонстрация на паре) ---
 # true: яйцо вылупляется за debug.hatch.seconds секунд,
 #       /daily доступен раз в debug.daily.cooldown.seconds секунд
-debug.enabled=false
+debug.enabled=true
 debug.hatch.seconds=5
 debug.daily.cooldown.seconds=20
+# Кулдаун /pat в дебаг-режиме (в секундах)
+debug.pat.cooldown.seconds=10

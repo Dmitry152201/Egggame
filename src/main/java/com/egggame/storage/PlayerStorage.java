@@ -22,8 +22,8 @@ import java.util.Map;
  */
 public class PlayerStorage {
 
-    /** Путь к файлу хранилища */
-    private static final String STORAGE_FILE = "storage/players.json";
+    /** Путь к файлу хранилища (ИЗМЕНЕНО на storageData) */
+    private static final String STORAGE_FILE = "storageData/players.json";
 
     /** Gson с кастомным адаптером для LocalDateTime */
     private final Gson gson = new GsonBuilder()
@@ -60,7 +60,6 @@ public class PlayerStorage {
             }
         } catch (IOException | JsonSyntaxException e) {
             System.err.println("⚠️ Ошибка загрузки игроков (файл повреждён или пуст, начинаем с чистого листа): " + e.getMessage());
-            // Бот не падает, а просто продолжает работу с пустой картой
         }
     }
 
@@ -69,7 +68,8 @@ public class PlayerStorage {
      */
     public void save() {
         try {
-            Files.createDirectories(Path.of("storage"));
+            // ИЗМЕНЕНО: Создаем папку storageData
+            Files.createDirectories(Path.of("storageData"));
             try (Writer writer = Files.newBufferedWriter(Path.of(STORAGE_FILE))) {
                 gson.toJson(players, writer);
             }
