@@ -1,87 +1,55 @@
 package com.egggame.model;
 
+import java.util.List;
+
 /**
- * Шаблон вида питомца из справочника.
- * Описывает вид, который может вылупиться из яйца: имя, редкость,
- * описание и картинку. Не является экземпляром в коллекции игрока:
- * в коллекции хранится только id шаблона.
+ * Шаблон вида питомца. Содержит базовые боевые характеристики и пассивку.
  */
 public class Species {
-
-    /** Уникальный идентификатор шаблона, например "mouse" */
     private final String id;
-
-    /** Название вида для игрока, например "Сырный Мышонок" */
     private final String name;
-
-    /** Редкость питомца данного вида */
     private final Rarity rarity;
-
-    /** Короткое описание вида для карточки питомца */
     private final String description;
-
-    /** Путь к картинке вида внутри resources */
     private final String imagePath;
+    private final List<String> availableTraits;
 
-    /**
-     * Создаёт шаблон вида.
-     *
-     * @param id          уникальный идентификатор шаблона
-     * @param name        название вида для игрока
-     * @param rarity      редкость питомца
-     * @param description описание вида
-     * @param imagePath   путь к картинке в resources
-     */
-    public Species(String id, String name, Rarity rarity, String description, String imagePath) {
+    // Боевые статы
+    private final int baseHp;
+    private final int baseAttack;
+    private final int baseDefense;
+
+    // Пассивная способность
+    private final String passiveName;
+    private final String passiveDescription;
+
+    public Species(String id, String name, Rarity rarity, String description, String imagePath,
+                   List<String> availableTraits, int baseHp, int baseAttack, int baseDefense,
+                   String passiveName, String passiveDescription) {
         this.id = id;
         this.name = name;
         this.rarity = rarity;
         this.description = description;
         this.imagePath = imagePath;
+        this.availableTraits = availableTraits;
+        this.baseHp = baseHp;
+        this.baseAttack = baseAttack;
+        this.baseDefense = baseDefense;
+        this.passiveName = passiveName;
+        this.passiveDescription = passiveDescription;
     }
 
-    /**
-     * Возвращает уникальный идентификатор шаблона.
-     *
-     * @return id шаблона, например "mouse"
-     */
-    public String getId() {
-        return id;
-    }
+    public String getId() { return id; }
+    public String getName() { return name; }
+    public Rarity getRarity() { return rarity; }
+    public String getDescription() { return description; }
+    public String getImagePath() { return imagePath; }
+    public List<String> getAvailableTraits() { return availableTraits; }
+    public int getBaseHp() { return baseHp; }
+    public int getBaseAttack() { return baseAttack; }
+    public int getBaseDefense() { return baseDefense; }
+    public String getPassiveName() { return passiveName; }
+    public String getPassiveDescription() { return passiveDescription; }
 
-    /**
-     * Возвращает название вида для игрока.
-     *
-     * @return название вида, например "Песиптиц"
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Возвращает редкость вида.
-     *
-     * @return редкость питомца
-     */
-    public Rarity getRarity() {
-        return rarity;
-    }
-
-    /**
-     * Возвращает описание вида.
-     *
-     * @return текст описания для карточки
-     */
-    public String getDescription() {
-        return description;
-    }
-
-    /**
-     * Возвращает путь к картинке вида.
-     *
-     * @return путь внутри resources, например "pets/mouse.jpg"
-     */
-    public String getImagePath() {
-        return imagePath;
-    }
+    /** Проверяет наличие пассивки */
+    public boolean hasPassive() { return passiveName != null && !passiveName.isEmpty(); }
 }

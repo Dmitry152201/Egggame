@@ -1,6 +1,7 @@
 package com.egggame.storage;
 
 import com.egggame.model.Pet;
+import com.egggame.model.Species;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
@@ -19,64 +20,48 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Хранилище питомцев с сохранением в JSON-файл.
- * Использует кастомный адаптер для LocalDateTime и защищено от чтения пустых файлов.
+ * Хранилище питомцев в формате JSON.
  */
 public class PetStorage {
-
-    /** Путь к файлу хранилища */
-    private static final String STORAGE_FILE = "storage/pets.json";
-
-    /** Gson с кастомным адаптером для LocalDateTime */
+    private final String storageFile;
     private final Gson gson = new GsonBuilder()
             .setPrettyPrinting()
             .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
             .create();
-
-    /** Кэш питомцев в памяти */
     private final Map<String, Pet> pets = new HashMap<>();
-
-    /** Счётчик для генерации уникальных ID */
     private int nextId = 1;
 
-    /**
-     * Создаёт хранилище и загружает данные из файла.
-     */
     public PetStorage() throws IOException {
+        this("storageData/pets.json");
+    }
+
+    public PetStorage(String storageFile) throws IOException {
+        this.storageFile = storageFile;
         load();
     }
 
-    /**
-     * Загружает питомцев из JSON-файла.
-     */
     public void load() throws IOException {
-        Path path = Path.of(STORAGE_FILE);
-
-        // ЗАЩИТА: если файла нет или он пустой (0 байт), просто выходим
-        if (!Files.exists(path) || Files.size(path) == 0) {
-            return;
-        }
+        Path path = Path.of(storageFile);
+        if (!Files.exists(path) || Files.size(path) == 0) return;
 
         try (Reader reader = Files.newBufferedReader(path)) {
             Type type = new TypeToken<Map<String, Pet>>() {}.getType();
             Map<String, Pet> loaded = gson.fromJson(reader, type);
             if (loaded != null) {
                 pets.putAll(loaded);
-                nextId = loaded.size() + 1; // Обновляем счётчик, чтобы ID не повторялись
+                nextId = loaded.size() + 1;
             }
         } catch (IOException | JsonSyntaxException e) {
-            System.err.println("⚠️ Ошибка загрузки питомцев (файл повреждён или пуст, начинаем с чистого листа): " + e.getMessage());
-            // Бот не падает, а просто продолжает работу с пустой картой
+            System.err.println("⚠️ Ошибка загрузки питомцев: " + e.getMessage());
         }
     }
 
-    /**
-     * Сохраняет всех питомцев в JSON-файл.
-     */
     public void save() {
         try {
-            Files.createDirectories(Path.of("storage"));
-            try (Writer writer = Files.newBufferedWriter(Path.of(STORAGE_FILE))) {
+            Path path = Path.of(storageFile);
+            if (path.getParent() != null) Files.createDirectories(path.getParent());
+
+            try (Writer writer = Files.newBufferedWriter(path)) {
                 gson.toJson(pets, writer);
             }
         } catch (IOException e) {
@@ -84,50 +69,23 @@ public class PetStorage {
         }
     }
 
-    /**
-     * Создаёт нового питомца и сохраняет его в хранилище.
-     *
-     * @param ownerId   Telegram ID владельца
-     * @param speciesId ID вида питомца
-     * @return созданный питомец
-     */
-    public Pet createPet(long ownerId, String speciesId) {
-        String id = speciesId + "_" + nextId++;
-        Pet pet = new Pet(id, ownerId, speciesId, 1, LocalDateTime.now());
+    public Pet createPet(long ownerId, Species species, String name, List<String> traits) {
+        String id = species.getId() + "_" + nextId++;
+        Pet pet = new Pet(id, ownerId, species, name, LocalDateTime.now(), traits);
         pets.put(id, pet);
         save();
         return pet;
     }
 
-    /**
-     * Возвращает питомца по его уникальному ID.
-     *
-     * @param petId ID питомца
-     * @return питомец или null, если не найден
-     */
-    public Pet getPet(String petId) {
-        return pets.get(petId);
-    }
+    public Pet getPet(String petId) { return pets.get(petId); }
 
-    /**
-     * Возвращает всех питомцев конкретного владельца.
-     *
-     * @param ownerId Telegram ID владельца
-     * @return список питомцев владельца
-     */
     public List<Pet> getPetsByOwner(long ownerId) {
         return pets.values().stream()
                 .filter(p -> p.getOwnerId() == ownerId)
+                .sorted((p1, p2) -> p1.getObtainedAt().compareTo(p2.getObtainedAt()))
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Обновляет данные питомца в хранилище.
-     *
-     * @param pet питомец для обновления
-     */
-    public void savePet(Pet pet) {
-        pets.put(pet.getId(), pet);
-        save();
-    }
+    public List<Pet> getAllPets() { return new java.util.ArrayList<>(pets.values()); }
+    public void savePet(Pet pet) { pets.put(pet.getId(), pet); save(); }
 }
