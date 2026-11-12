@@ -1,46 +1,33 @@
 package com.egggame.storage;
 
 import com.egggame.model.Player;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import java.io.IOException;
-
+import java.nio.file.Path;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Тесты хранилища игроков.
- */
 class PlayerStorageTest {
-
-    private PlayerStorage playerStorage;
-
-    @BeforeEach
-    void setUp() throws IOException {
-        playerStorage = new PlayerStorage();
-    }
-
     @Test
-    void savePlayer_andGetPlayer_returnsPlayer() {
+    void savePlayer_andGetPlayer_returnsPlayer(@TempDir Path tempDir) throws IOException {
+        PlayerStorage storage = new PlayerStorage(tempDir.resolve("players.json").toString());
         Player player = new Player(123456789L, "TestPlayer");
         player.addEgg();
-        playerStorage.savePlayer(player);
+        storage.savePlayer(player);
 
-        Player loaded = playerStorage.getPlayer(123456789L);
+        Player loaded = storage.getPlayer(123456789L);
         assertNotNull(loaded);
         assertEquals(1, loaded.getEggs());
     }
 
     @Test
-    void hasPlayer_existingPlayer_returnsTrue() {
+    void hasPlayer_worksCorrectly(@TempDir Path tempDir) throws IOException {
+        PlayerStorage storage = new PlayerStorage(tempDir.resolve("players.json").toString());
         Player player = new Player(987654321L, "TestPlayer2");
-        playerStorage.savePlayer(player);
+        storage.savePlayer(player);
 
-        assertTrue(playerStorage.hasPlayer(987654321L));
-    }
-
-    @Test
-    void hasPlayer_nonExistingPlayer_returnsFalse() {
-        assertFalse(playerStorage.hasPlayer(111111111L));
+        assertTrue(storage.hasPlayer(987654321L));
+        assertFalse(storage.hasPlayer(111111111L));
     }
 }

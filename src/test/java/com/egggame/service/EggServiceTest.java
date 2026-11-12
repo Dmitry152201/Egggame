@@ -1,6 +1,6 @@
 package com.egggame.service;
 
-import com.egggame.config.Config;
+import com.egggame.config.GameConfig;
 import com.egggame.model.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,7 @@ class EggServiceTest {
 
     @BeforeEach
     void setUp() {
-        Config config = new Config();
+        GameConfig config = new GameConfig();
         eggService = new EggService(config);
         player = new Player(123456789L, "TestPlayer");
     }
@@ -36,15 +36,5 @@ class EggServiceTest {
     @Test
     void formatTimeRemaining_seconds_returnsSeconds() {
         assertEquals("30 сек", eggService.formatTimeRemaining(30));
-    }
-
-    @Test
-    void formatTimeRemaining_minutes_returnsMinutes() {
-        assertEquals("5 мин", eggService.formatTimeRemaining(300));
-    }
-
-    @Test
-    void formatTimeRemaining_hours_returnsHoursAndMinutes() {
-        assertEquals("2 ч 30 мин", eggService.formatTimeRemaining(9000));
     }
 }

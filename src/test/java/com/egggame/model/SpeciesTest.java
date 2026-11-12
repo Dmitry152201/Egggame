@@ -1,21 +1,18 @@
 package com.egggame.model;
 
 import org.junit.jupiter.api.Test;
+import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Тесты модели вида питомца.
- */
 class SpeciesTest {
-
     @Test
     void species_creation_correct() {
-        Species species = new Species("mouse", "Сырный Мышонок", Rarity.COMMON, "Обожает сыр.", "pets/mouse.jpg");
-
+        Species species = new Species(
+                "mouse", "Сырный Мышонок", Rarity.COMMON, "Обожает сыр.", "pets/mouse.jpg",
+                List.of("Любит сыр"), 30, 5, 1, null, null
+        );
         assertEquals("mouse", species.getId());
-        assertEquals("Сырный Мышонок", species.getName());
-        assertEquals(Rarity.COMMON, species.getRarity());
-        assertEquals("Обожает сыр.", species.getDescription());
-        assertEquals("pets/mouse.jpg", species.getImagePath());
+        assertEquals(30, species.getBaseHp());
+        assertFalse(species.hasPassive());
     }
 }

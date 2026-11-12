@@ -25,3 +25,5 @@ incubator.max.hours=12
 debug.enabled=false
 debug.hatch.seconds=5
 debug.daily.cooldown.seconds=20
+# Сколько времени на арене
+debug.arena.hour.seconds=10

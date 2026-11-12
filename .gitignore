@@ -1,16 +1,14 @@
-# IDE
+target/
 .idea/
 *.iml
-.vscode/
-.project
-.classpath
-.settings/
-
-# Артефакты сборки Maven
-target/
-
-# Локальный конфиг с токеном: в git не коммитим
-bot.properties
-
-# Логи
 *.log
+*.db
+
+# Игнорируем папку с данными в корне проекта
+/storageData/
+
+# Игнорируем реальный конфиг
+src/main/resources/bot.properties
+
+# Разрешаем тестовый конфиг
+!src/test/resources/bot.properties
