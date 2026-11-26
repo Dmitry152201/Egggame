@@ -1,6 +1,9 @@
 package com.egggame.config;
+
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 class BotConfigTest {
     @Test
     void botConfig_loadsSuccessfully() {

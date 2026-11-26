@@ -12,7 +12,8 @@ import org.junit.jupiter.api.io.TempDir;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CommandHandlerTest {
     private CommandHandler commandHandler;
@@ -30,12 +31,16 @@ class CommandHandlerTest {
         CombatService combatService = new CombatService(petService);
         ArenaService arenaService = new ArenaService(petService, config);
 
+        // Обновленный список команд (добавлены новые и обновлен FightCommand)
         List<Command> commands = List.of(
                 new StartCommand(playerService),
                 new HelpCommand(),
                 new DailyCommand(eggService, playerService),
-                new FightCommand(petService, combatService),
-                new ArenaCommand(petService, arenaService)
+                new FightCommand(petService, combatService, playerService),
+                new ArenaCommand(petService, arenaService),
+                new ShopCommand(),
+                new BuyCommand(playerService),
+                new SellCommand(petService, playerService)
         );
         commandHandler = new CommandHandler(playerService, commands);
     }
@@ -43,14 +48,18 @@ class CommandHandlerTest {
     @Test
     void handleCommand_start_routedCorrectly() {
         CommandResponse response = commandHandler.handleCommand(111L, "/start", "User");
-        // Проверяем, что команда /start отработала и вернула правильный текст
         assertTrue(response.text().contains("EGGGAME"));
     }
 
     @Test
     void handleCommand_help_routedCorrectly() {
         CommandResponse response = commandHandler.handleCommand(111L, "/help", "User");
-        // Проверяем, что /help вернул справочник команд
         assertTrue(response.text().contains("СПРАВОЧНИК КОМАНД"));
+    }
+
+    @Test
+    void handleCommand_shop_routedCorrectly() {
+        CommandResponse response = commandHandler.handleCommand(111L, "/shop", "User");
+        assertTrue(response.text().contains("Добро пожаловать в магазин"));
     }
 }

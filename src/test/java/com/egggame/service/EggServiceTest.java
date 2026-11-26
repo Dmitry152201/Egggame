@@ -37,4 +37,23 @@ class EggServiceTest {
     void formatTimeRemaining_seconds_returnsSeconds() {
         assertEquals("30 сек", eggService.formatTimeRemaining(30));
     }
+
+    @Test
+    void canGetDaily_rightAfterGrant_returnsFalse() {
+        // Выдаем яйцо, время последнего получения записывается на текущий момент
+        eggService.grantDailyEgg(player);
+
+        // Сразу же пытаемся получить еще раз
+        assertFalse(eggService.canGetDaily(player));
+    }
+
+    @Test
+    void canGetDaily_afterCooldown_returnsTrue() {
+        eggService.grantDailyEgg(player);
+
+        // Принудительно ставим время получения в прошлое (больше, чем кулдаун)
+        player.setLastDailyAt(java.time.LocalDateTime.now().minusSeconds(10));
+
+        assertTrue(eggService.canGetDaily(player));
+    }
 }
