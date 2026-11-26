@@ -2,7 +2,9 @@ package com.egggame.model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -58,5 +60,26 @@ class PlayerTest {
         player.addPetId("mouse_1");
         assertTrue(player.hasSpecies("mouse"));
         assertFalse(player.hasSpecies("dog_bird"));
+    }
+
+    @Test
+    void player_addCoins_increasesBalance() {
+        player.addCoins(50);
+        assertEquals(50, player.getCoins());
+        player.addCoins(20);
+        assertEquals(70, player.getCoins());
+    }
+
+    @Test
+    void player_spendCoins_successAndFail() {
+        player.addCoins(50);
+
+        // Успешная трата
+        assertTrue(player.spendCoins(30));
+        assertEquals(20, player.getCoins());
+
+        // Неудачная трата (не хватает денег)
+        assertFalse(player.spendCoins(50));
+        assertEquals(20, player.getCoins()); // Баланс не изменился
     }
 }
