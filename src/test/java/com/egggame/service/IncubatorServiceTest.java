@@ -10,6 +10,7 @@ import org.junit.jupiter.api.io.TempDir;
 
 import java.io.IOException;
 import java.nio.file.Path;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class IncubatorServiceTest {
@@ -34,5 +35,35 @@ class IncubatorServiceTest {
     @Test
     void putEgg_noEggs_fails() {
         assertFalse(incubatorService.putEgg(player).success());
+    }
+
+    @Test
+    void hatch_tooEarly_fails() {
+        player.addEgg();
+        incubatorService.putEgg(player);
+
+        // Принудительно ставим время вылупления в будущее
+        player.setHatchReadyAt(java.time.LocalDateTime.now().plusHours(1));
+
+        IncubatorService.IncubatorResult result = incubatorService.hatch(player);
+
+        assertFalse(result.success());
+        assertTrue(result.message().contains("ещё не вылупилось"));
+    }
+
+    @Test
+    void hatch_whenReady_successAndCreatesPet() {
+        player.addEgg();
+        incubatorService.putEgg(player);
+
+        // Принудительно делаем так, чтобы время уже прошло
+        player.setHatchReadyAt(java.time.LocalDateTime.now().minusSeconds(1));
+
+        IncubatorService.IncubatorResult result = incubatorService.hatch(player);
+
+        assertTrue(result.success());
+        assertNotNull(result.pet());
+        assertTrue(player.isIncubatorEmpty());
+        assertEquals(1, player.getPetIds().size());
     }
 }

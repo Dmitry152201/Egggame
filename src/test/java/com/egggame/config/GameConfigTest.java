@@ -1,6 +1,9 @@
 package com.egggame.config;
+
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 class GameConfigTest {
     @Test
     void gameConfig_debugMode_returnsCorrectValues() {

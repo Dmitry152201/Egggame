@@ -11,7 +11,9 @@ public class StartCommand implements Command {
     }
 
     @Override
-    public String getName() { return "/start"; }
+    public String getName() {
+        return "/start";
+    }
 
     @Override
     public CommandResponse execute(Player player, String[] args) {

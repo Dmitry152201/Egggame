@@ -3,8 +3,11 @@ package com.egggame.command;
 import com.egggame.model.Rarity;
 import com.egggame.model.Species;
 import org.junit.jupiter.api.Test;
+
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CommandResponseTest {
 

@@ -12,6 +12,7 @@ import org.junit.jupiter.api.io.TempDir;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ArenaServiceTest {
@@ -55,5 +56,17 @@ class ArenaServiceTest {
         assertTrue(result.message().contains("получил 20 XP"));
         assertNull(pet.getArenaEndTime());
         assertEquals(0, pet.getArenaHours());
+    }
+
+    @Test
+    void checkStatus_onArena_returnsRemainingTime() {
+        // Отправляем питомца на арену на 2 часа
+        arenaService.sendToArena(pet, 2);
+
+        ArenaService.ArenaResult result = arenaService.checkStatus(pet);
+
+        // Проверяем, что статус успешный и в сообщении есть текст про тренировку
+        assertTrue(result.success());
+        assertTrue(result.message().contains("Питомец тренируется"));
     }
 }

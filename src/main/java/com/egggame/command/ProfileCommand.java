@@ -3,9 +3,12 @@ package com.egggame.command;
 import com.egggame.model.Pet;
 import com.egggame.model.Player;
 import com.egggame.service.PetService;
+
 import java.util.List;
 
-/** Команда /profile. Показывает статистику игрока. */
+/**
+ * Команда /profile. Показывает статистику игрока.
+ */
 public class ProfileCommand implements Command {
     private final PetService petService;
 
@@ -14,7 +17,9 @@ public class ProfileCommand implements Command {
     }
 
     @Override
-    public String getName() { return "/profile"; }
+    public String getName() {
+        return "/profile";
+    }
 
     @Override
     public CommandResponse execute(Player player, String[] args) {
@@ -28,6 +33,10 @@ public class ProfileCommand implements Command {
             }
             avgHappy = total / pets.size();
         }
-        return new CommandResponse("👤 Профиль: " + player.getUsername() + "\n🥚 Яиц: " + player.getEggs() + "\n🐾 Питомцев: " + pets.size() + "\n😊 Среднее счастье: " + avgHappy + "/100", null);
+        return new CommandResponse("👤 Профиль: " + player.getUsername() +
+                "\n💰 Монет: " + player.getCoins() +
+                "\n🥚 Яиц: " + player.getEggs() +
+                "\n🐾 Питомцев: " + pets.size() +
+                "\n😊 Среднее счастье: " + avgHappy + "/100", null);
     }
 }

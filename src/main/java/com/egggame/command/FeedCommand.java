@@ -14,7 +14,10 @@ public class FeedCommand implements Command {
         this.playerService = playerService;
     }
 
-    @Override public String getName() { return "/feed"; }
+    @Override
+    public String getName() {
+        return "/feed";
+    }
 
     @Override
     public CommandResponse execute(Player player, String[] args) {

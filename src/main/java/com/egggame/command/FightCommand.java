@@ -4,17 +4,23 @@ import com.egggame.model.Pet;
 import com.egggame.model.Player;
 import com.egggame.service.CombatService;
 import com.egggame.service.PetService;
+import com.egggame.service.PlayerService;
 
 public class FightCommand implements Command {
     private final PetService petService;
     private final CombatService combatService;
+    private final PlayerService playerService;
 
-    public FightCommand(PetService petService, CombatService combatService) {
+    public FightCommand(PetService petService, CombatService combatService, PlayerService playerService) {
         this.petService = petService;
         this.combatService = combatService;
+        this.playerService = playerService;
     }
 
-    @Override public String getName() { return "/fight"; }
+    @Override
+    public String getName() {
+        return "/fight";
+    }
 
     @Override
     public CommandResponse execute(Player player, String[] args) {
@@ -32,10 +38,17 @@ public class FightCommand implements Command {
             return new CommandResponse("❌ Уровень врага должен быть положительным числом.", null);
         }
 
-        // ОБЯЗАТЕЛЬНО обновляем статы (проверяем голод) перед боем
         petService.updatePetStats(pet);
 
         CombatService.CombatResult result = combatService.fight(pet, enemyLevel);
+
+        if (result.victory()) {
+            player.addCoins(result.coinsGained());
+            playerService.savePlayer(player);
+            String finalLog = result.log() + "\n💰 Получено монет: " + result.coinsGained() + "\nТвой баланс: " + player.getCoins();
+            return new CommandResponse(finalLog, null, KeyboardFactory.combatActions(pet.getId()));
+        }
+
         return new CommandResponse(result.log(), null, KeyboardFactory.combatActions(pet.getId()));
     }
 }

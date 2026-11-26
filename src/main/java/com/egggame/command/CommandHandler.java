@@ -2,12 +2,15 @@ package com.egggame.command;
 
 import com.egggame.model.Player;
 import com.egggame.service.PlayerService;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/** Диспетчер команд. */
+/**
+ * Диспетчер команд.
+ */
 public class CommandHandler {
     private final PlayerService playerService;
     private final Map<String, Command> commands = new HashMap<>();

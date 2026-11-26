@@ -11,6 +11,7 @@ import org.junit.jupiter.api.io.TempDir;
 
 import java.io.IOException;
 import java.nio.file.Path;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CombatServiceTest {
@@ -31,8 +32,10 @@ class CombatServiceTest {
     void fight_winAgainstWeakEnemy_returnsVictoryAndXp() {
         Pet pet = petService.createPet(player, "shadow_gentleman");
         CombatService.CombatResult result = combatService.fight(pet, 1);
+
         assertTrue(result.victory());
         assertEquals(5, result.xpGained());
+        assertEquals(2, result.coinsGained()); // 1 уровень врага * 2 монеты
     }
 
     @Test
@@ -51,5 +54,20 @@ class CombatServiceTest {
         CombatService.CombatResult result = combatService.fight(pet, 1);
         assertFalse(result.victory());
         assertTrue(result.log().contains("отказывается сражаться"));
+    }
+
+    @Test
+    void fight_winAgainstStrongerEnemy_returnsMoreCoins() {
+        Pet pet = petService.createPet(player, "shadow_gentleman");
+
+        // Искусственно повышаем статы питомца, чтобы он точно победил
+        pet.setLevel(10);
+        pet.recalculateStats(petService.getSpecies(pet.getSpeciesId()));
+
+        CombatService.CombatResult result = combatService.fight(pet, 3);
+
+        assertTrue(result.victory());
+        assertEquals(15, result.xpGained()); // 5 * 3
+        assertEquals(6, result.coinsGained()); // 3 уровня * 2 монеты
     }
 }

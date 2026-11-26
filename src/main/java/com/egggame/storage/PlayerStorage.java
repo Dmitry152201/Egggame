@@ -41,7 +41,8 @@ public class PlayerStorage {
         if (!Files.exists(path) || Files.size(path) == 0) return;
 
         try (Reader reader = Files.newBufferedReader(path)) {
-            Type type = new TypeToken<Map<Long, Player>>() {}.getType();
+            Type type = new TypeToken<Map<Long, Player>>() {
+            }.getType();
             Map<Long, Player> loaded = gson.fromJson(reader, type);
             if (loaded != null) players.putAll(loaded);
         } catch (IOException | JsonSyntaxException e) {
@@ -62,7 +63,16 @@ public class PlayerStorage {
         }
     }
 
-    public Player getPlayer(long telegramId) { return players.get(telegramId); }
-    public void savePlayer(Player player) { players.put(player.getTelegramId(), player); save(); }
-    public boolean hasPlayer(long telegramId) { return players.containsKey(telegramId); }
+    public Player getPlayer(long telegramId) {
+        return players.get(telegramId);
+    }
+
+    public void savePlayer(Player player) {
+        players.put(player.getTelegramId(), player);
+        save();
+    }
+
+    public boolean hasPlayer(long telegramId) {
+        return players.containsKey(telegramId);
+    }
 }

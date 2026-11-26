@@ -52,7 +52,8 @@ public class Main {
                     new IncubateCommand(incubatorService, playerService), new HatchCommand(incubatorService, playerService),
                     new PetsCommand(petService), new PetCommand(petService), new FeedCommand(petService, playerService),
                     new PatCommand(petService, gameConfig), new RenameCommand(petService),
-                    new FightCommand(petService, combatService), new ArenaCommand(petService, arenaService)
+                    new FightCommand(petService, combatService, playerService), new ArenaCommand(petService, arenaService),
+                    new ShopCommand(), new BuyCommand(playerService), new SellCommand(petService, playerService)
             );
 
             CommandHandler commandHandler = new CommandHandler(playerService, commands);

@@ -14,7 +14,10 @@ public class ArenaCommand implements Command {
         this.arenaService = arenaService;
     }
 
-    @Override public String getName() { return "/arena"; }
+    @Override
+    public String getName() {
+        return "/arena";
+    }
 
     @Override
     public CommandResponse execute(Player player, String[] args) {
@@ -30,7 +33,11 @@ public class ArenaCommand implements Command {
             if (pet == null) return new CommandResponse("❌ Питомец не найден.", null);
 
             int hours;
-            try { hours = Integer.parseInt(args[2]); } catch (Exception e) { return new CommandResponse("❌ Часы должны быть числом.", null); }
+            try {
+                hours = Integer.parseInt(args[2]);
+            } catch (Exception e) {
+                return new CommandResponse("❌ Часы должны быть числом.", null);
+            }
 
             petService.updatePetStats(pet);
             ArenaService.ArenaResult res = arenaService.sendToArena(pet, hours);

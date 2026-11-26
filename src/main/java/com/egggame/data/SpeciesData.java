@@ -2,6 +2,7 @@ package com.egggame.data;
 
 import com.egggame.model.Rarity;
 import com.egggame.model.Species;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -42,7 +43,15 @@ public class SpeciesData {
         );
     }
 
-    public List<Species> getAllSpecies() { return allSpecies; }
-    public Optional<Species> getById(String id) { return allSpecies.stream().filter(s -> s.getId().equals(id)).findFirst(); }
-    public int getTotalCount() { return allSpecies.size(); }
+    public List<Species> getAllSpecies() {
+        return allSpecies;
+    }
+
+    public Optional<Species> getById(String id) {
+        return allSpecies.stream().filter(s -> s.getId().equals(id)).findFirst();
+    }
+
+    public int getTotalCount() {
+        return allSpecies.size();
+    }
 }

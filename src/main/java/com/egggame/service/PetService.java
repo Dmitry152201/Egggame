@@ -7,6 +7,7 @@ import com.egggame.model.Player;
 import com.egggame.model.Rarity;
 import com.egggame.model.Species;
 import com.egggame.storage.PetStorage;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -33,7 +34,10 @@ public class PetService {
         Rarity target = null;
         for (Rarity r : byRarity.keySet()) {
             roll -= r.getDropChancePercent();
-            if (roll < 0) { target = r; break; }
+            if (roll < 0) {
+                target = r;
+                break;
+            }
         }
         return byRarity.get(target).get(random.nextInt(byRarity.get(target).size()));
     }
@@ -62,7 +66,8 @@ public class PetService {
         try {
             int index = Integer.parseInt(cleanQuery);
             if (index > 0 && index <= pets.size()) return pets.get(index - 1);
-        } catch (NumberFormatException ignored) {}
+        } catch (NumberFormatException ignored) {
+        }
         for (Pet pet : pets) if (pet.getName().equalsIgnoreCase(query)) return pet;
         for (Pet pet : pets) if (pet.getName().toLowerCase().startsWith(query.toLowerCase() + " ")) return pet;
         return null;
@@ -93,16 +98,32 @@ public class PetService {
         long minutesPassed = Duration.between(pet.getLastUpdatedAt(), now).toMinutes();
         long effectiveHours = config.isDebugEnabled() ? minutesPassed : (minutesPassed / 60);
         if (effectiveHours > 0) {
-            pet.setSatiety(pet.getSatiety() - (int)(effectiveHours * 5));
-            if (pet.getSatiety() <= 0) pet.setHappiness(pet.getHappiness() - (int)(effectiveHours * 2));
+            pet.setSatiety(pet.getSatiety() - (int) (effectiveHours * 5));
+            if (pet.getSatiety() <= 0) pet.setHappiness(pet.getHappiness() - (int) (effectiveHours * 2));
             pet.setLastUpdatedAt(now);
             petStorage.savePet(pet);
         }
     }
 
-    public void savePet(Pet pet) { petStorage.savePet(pet); }
-    public Pet getPet(String petId) { return petStorage.getPet(petId); }
-    public List<Pet> getPlayerPets(Player player) { return petStorage.getPetsByOwner(player.getTelegramId()); }
-    public List<Pet> getAllPets() { return petStorage.getAllPets(); }
-    public Species getSpecies(String speciesId) { return speciesData.getById(speciesId).orElse(null); }
+    public void savePet(Pet pet) {
+        petStorage.savePet(pet);
+    }
+
+    public Pet getPet(String petId) {
+        return petStorage.getPet(petId);
+    }
+
+    public List<Pet> getPlayerPets(Player player) {
+        return petStorage.getPetsByOwner(player.getTelegramId());
+    }
+
+    public List<Pet> getAllPets() {
+        return petStorage.getAllPets();
+    }
+
+    public Species getSpecies(String speciesId) {
+        return speciesData.getById(speciesId).orElse(null);
+    }
+
+    public void deletePet(String petId) { petStorage.deletePet(petId); }
 }
