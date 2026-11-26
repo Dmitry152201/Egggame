@@ -14,7 +14,9 @@ import java.time.format.DateTimeFormatter;
  */
 public class LocalDateTimeAdapter extends TypeAdapter<LocalDateTime> {
 
-    /** Формат ISO-8601 для хранения дат в JSON */
+    /**
+     * Формат ISO-8601 для хранения дат в JSON
+     */
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
     /**

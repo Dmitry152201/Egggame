@@ -11,7 +11,10 @@ public class RenameCommand implements Command {
         this.petService = petService;
     }
 
-    @Override public String getName() { return "/rename"; }
+    @Override
+    public String getName() {
+        return "/rename";
+    }
 
     @Override
     public CommandResponse execute(Player player, String[] args) {

@@ -15,6 +15,7 @@ import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
 import java.io.InputStream;
 
 public class Bot extends TelegramLongPollingBot {
@@ -27,7 +28,10 @@ public class Bot extends TelegramLongPollingBot {
         this.commandHandler = commandHandler;
     }
 
-    @Override public String getBotUsername() { return botUsername; }
+    @Override
+    public String getBotUsername() {
+        return botUsername;
+    }
 
     @Override
     public void onUpdateReceived(Update update) {
@@ -38,7 +42,10 @@ public class Bot extends TelegramLongPollingBot {
 
             AnswerCallbackQuery answer = new AnswerCallbackQuery();
             answer.setCallbackQueryId(update.getCallbackQuery().getId());
-            try { execute(answer); } catch (TelegramApiException ignored) {}
+            try {
+                execute(answer);
+            } catch (TelegramApiException ignored) {
+            }
 
             String commandText = "";
 
@@ -67,7 +74,8 @@ public class Bot extends TelegramLongPollingBot {
                 sendTextMessage(chatId, new CommandResponse(text, null, KeyboardFactory.petActions(petId, true)));
                 return;
             }
-
+            else if (callData.equals("shop_buy_egg")) commandText = "/buy egg";
+            else if (callData.startsWith("sell_")) commandText = "/sell " + callData.substring(5);
             if (!commandText.isEmpty()) {
                 CommandResponse response = commandHandler.handleCommand(chatId, commandText, username);
                 sendResponse(chatId, response);
@@ -98,7 +106,11 @@ public class Bot extends TelegramLongPollingBot {
         message.setChatId(String.valueOf(chatId));
         message.setText(response.text());
         if (response.hasKeyboard()) message.setReplyMarkup(response.keyboard());
-        try { return execute(message); } catch (TelegramApiException e) { return null; }
+        try {
+            return execute(message);
+        } catch (TelegramApiException e) {
+            return null;
+        }
     }
 
     private void sendPhotoMessage(long chatId, CommandResponse response) {
@@ -106,14 +118,23 @@ public class Bot extends TelegramLongPollingBot {
         photo.setChatId(String.valueOf(chatId));
         Species species = response.species();
         InputStream imageStream = getClass().getClassLoader().getResourceAsStream(species.getImagePath());
-        if (imageStream == null) { sendTextMessage(chatId, response); return; }
+        if (imageStream == null) {
+            sendTextMessage(chatId, response);
+            return;
+        }
         photo.setPhoto(new InputFile(imageStream, species.getId() + ".jpg"));
         photo.setCaption(response.text());
         if (response.hasKeyboard()) photo.setReplyMarkup(response.keyboard());
-        try { execute(photo); } catch (TelegramApiException e) { }
+        try {
+            execute(photo);
+        } catch (TelegramApiException e) {
+        }
     }
 
     private void pinMessage(long chatId, int messageId) {
-        try { execute(PinChatMessage.builder().chatId(String.valueOf(chatId)).messageId(messageId).build()); } catch (TelegramApiException e) { }
+        try {
+            execute(PinChatMessage.builder().chatId(String.valueOf(chatId)).messageId(messageId).build());
+        } catch (TelegramApiException e) {
+        }
     }
 }

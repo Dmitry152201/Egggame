@@ -2,6 +2,7 @@ package com.egggame.service;
 
 import com.egggame.config.GameConfig;
 import com.egggame.model.Pet;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 
@@ -13,8 +14,6 @@ public class ArenaService {
         this.petService = petService;
         this.config = config;
     }
-
-    public record ArenaResult(boolean success, String message) {}
 
     public ArenaResult sendToArena(Pet pet, int hours) {
         if (pet.isOnArena()) return new ArenaResult(false, "❌ Питомец уже на арене!");
@@ -68,5 +67,8 @@ public class ArenaService {
 
         String levelUp = petService.addExperience(pet, earnedXp);
         return new ArenaResult(true, "🏟️ Питомец вернулся с арены! Он получил " + earnedXp + " XP.\n" + levelUp);
+    }
+
+    public record ArenaResult(boolean success, String message) {
     }
 }

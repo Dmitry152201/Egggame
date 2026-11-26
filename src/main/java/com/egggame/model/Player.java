@@ -11,26 +11,36 @@ import java.util.List;
  */
 public class Player {
 
-    /** Telegram ID игрока, уникальный ключ */
+    /**
+     * Telegram ID игрока, уникальный ключ
+     */
     private final long telegramId;
-
-    /** Telegram-имя игрока для профиля */
+    /**
+     * Список ID питомцев игрока (уникальные экземпляры)
+     */
+    private final List<String> petIds = new ArrayList<>();
+    /**
+     * Telegram-имя игрока для профиля
+     */
     private String username;
-
-    /** Количество яиц в инвентаре */
+    /**
+     * Количество яиц в инвентаре
+     */
     private int eggs;
-
-    /** Время последнего получения /daily, null если ещё не получал */
+    /**
+     * Время последнего получения /daily, null если ещё не получал
+     */
     private LocalDateTime lastDailyAt;
-
-    /** Время готовности яйца в инкубаторе, null если инкубатор пуст */
+    /**
+     * Время готовности яйца в инкубаторе, null если инкубатор пуст
+     */
     private LocalDateTime hatchReadyAt;
-
-    /** ID вида питомца, сидящего в яйце, null если инкубатор пуст */
+    /**
+     * ID вида питомца, сидящего в яйце, null если инкубатор пуст
+     */
     private String incubatingSpeciesId;
 
-    /** Список ID питомцев игрока (уникальные экземпляры) */
-    private final List<String> petIds = new ArrayList<>();
+    private int coins = 0;
 
     /**
      * Создаёт нового игрока с пустым состоянием.
@@ -88,12 +98,16 @@ public class Player {
         this.eggs = eggs;
     }
 
-    /** Добавляет одно яйцо в инвентарь. */
+    /**
+     * Добавляет одно яйцо в инвентарь.
+     */
     public void addEgg() {
         this.eggs++;
     }
 
-    /** Тратит одно яйцо из инвентаря (кладка в инкубатор). */
+    /**
+     * Тратит одно яйцо из инвентаря (кладка в инкубатор).
+     */
     public void spendEgg() {
         this.eggs--;
     }
@@ -199,5 +213,25 @@ public class Player {
     public boolean hasSpecies(String speciesId) {
         return petIds.stream()
                 .anyMatch(petId -> petId.startsWith(speciesId + "_"));
+    }
+
+    public int getCoins() {
+        return coins;
+    }
+
+    public void addCoins(int amount) {
+        this.coins += amount;
+    }
+
+    public boolean spendCoins(int amount) {
+        if (this.coins >= amount) {
+            this.coins -= amount;
+            return true;
+        }
+        return false;
+    }
+
+    public void removePetId(String petId) {
+        petIds.remove(petId);
     }
 }

@@ -4,7 +4,9 @@ import com.egggame.model.Player;
 import com.egggame.service.IncubatorService;
 import com.egggame.service.PlayerService;
 
-/** Команда /incubate. Кладет яйцо в инкубатор. */
+/**
+ * Команда /incubate. Кладет яйцо в инкубатор.
+ */
 public class IncubateCommand implements Command {
     private final IncubatorService incubatorService;
     private final PlayerService playerService;
@@ -15,7 +17,9 @@ public class IncubateCommand implements Command {
     }
 
     @Override
-    public String getName() { return "/incubate"; }
+    public String getName() {
+        return "/incubate";
+    }
 
     @Override
     public CommandResponse execute(Player player, String[] args) {

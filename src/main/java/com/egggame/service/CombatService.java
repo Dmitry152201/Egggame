@@ -2,18 +2,20 @@ package com.egggame.service;
 
 import com.egggame.model.Pet;
 import com.egggame.model.Species;
+
 import java.util.Random;
 
 public class CombatService {
     private final Random random = new Random();
     private final PetService petService;
 
-    public CombatService(PetService petService) { this.petService = petService; }
-    public record CombatResult(boolean victory, String log, int xpGained) {}
+    public CombatService(PetService petService) {
+        this.petService = petService;
+    }
 
     public CombatResult fight(Pet pet, int enemyLevel) {
         if (pet.getSatiety() == 0 && pet.getHappiness() == 0) {
-            return new CombatResult(false, "❌ " + pet.getName() + " слишком голоден и несчастен. Он отказывается сражаться. Покорми и погладь его!", 0);
+            return new CombatResult(false, "❌ " + pet.getName() + " слишком голоден и несчастен. Он отказывается сражаться. Покорми и погладь его!", 0, 0);
         }
 
         Species species = petService.getSpecies(pet.getSpeciesId());
@@ -123,16 +125,21 @@ public class CombatService {
 
         if (petHp > 0 && enemyHp <= 0) {
             int xpGain = 5 * enemyLevel;
+            int coinGain = enemyLevel * 2; // Начисляем 2 монеты за уровень врага
+
             String levelUpLog = petService.addExperience(pet, xpGain);
             log.append("\n🏆 Победа! Твой ").append(pet.getName()).append(" получает ").append(xpGain).append(" XP.\n");
             log.append("Теперь у ").append(pet.getName()).append(" ").append(pet.getExperience()).append("/100 опыта.\n");
             log.append(levelUpLog);
-            return new CombatResult(true, log.toString(), xpGain);
+
+            return new CombatResult(true, log.toString(), xpGain, coinGain);
         } else {
             log.append("\n💀 Поражение... Твой питомец пал в бою. HP восстановлено до 1.\n");
             pet.setCurrentHp(1);
             petService.savePet(pet);
-            return new CombatResult(false, log.toString(), 0);
+            return new CombatResult(false, log.toString(), 0, 0);
         }
     }
+
+    public record CombatResult(boolean victory, String log, int xpGained, int coinsGained) { }
 }

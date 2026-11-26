@@ -9,12 +9,12 @@ public class Pet {
     private final String id;
     private final long ownerId;
     private final String speciesId;
+    private final LocalDateTime obtainedAt;
+    private final List<String> traits;
     private String name;
     private int level;
-    private final LocalDateTime obtainedAt;
     private int satiety;
     private int happiness;
-    private final List<String> traits;
     private LocalDateTime lastPatAt;
     private LocalDateTime lastUpdatedAt;
     private int experience;
@@ -57,34 +57,116 @@ public class Pet {
     }
 
     // ... (все старые геттеры/сеттеры остаются) ...
-    public String getId() { return id; }
-    public long getOwnerId() { return ownerId; }
-    public String getSpeciesId() { return speciesId; }
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-    public int getLevel() { return level; }
-    public void setLevel(int level) { this.level = level; }
-    public LocalDateTime getObtainedAt() { return obtainedAt; }
-    public int getSatiety() { return satiety; }
-    public void setSatiety(int satiety) { this.satiety = Math.max(0, Math.min(100, satiety)); }
-    public int getHappiness() { return happiness; }
-    public void setHappiness(int happiness) { this.happiness = Math.max(0, Math.min(100, happiness)); }
-    public List<String> getTraits() { return traits; }
-    public LocalDateTime getLastPatAt() { return lastPatAt; }
-    public void setLastPatAt(LocalDateTime lastPatAt) { this.lastPatAt = lastPatAt; }
-    public LocalDateTime getLastUpdatedAt() { return lastUpdatedAt; }
-    public void setLastUpdatedAt(LocalDateTime lastUpdatedAt) { this.lastUpdatedAt = lastUpdatedAt; }
-    public int getExperience() { return experience; }
-    public void setExperience(int experience) { this.experience = experience; }
-    public int getMaxHp() { return maxHp; }
-    public int getCurrentHp() { return currentHp; }
-    public void setCurrentHp(int currentHp) { this.currentHp = Math.max(0, Math.min(maxHp, currentHp)); }
-    public int getAttack() { return attack; }
-    public int getDefense() { return defense; }
-    public LocalDateTime getArenaEndTime() { return arenaEndTime; }
-    public void setArenaEndTime(LocalDateTime arenaEndTime) { this.arenaEndTime = arenaEndTime; }
+    public String getId() {
+        return id;
+    }
+
+    public long getOwnerId() {
+        return ownerId;
+    }
+
+    public String getSpeciesId() {
+        return speciesId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public LocalDateTime getObtainedAt() {
+        return obtainedAt;
+    }
+
+    public int getSatiety() {
+        return satiety;
+    }
+
+    public void setSatiety(int satiety) {
+        this.satiety = Math.max(0, Math.min(100, satiety));
+    }
+
+    public int getHappiness() {
+        return happiness;
+    }
+
+    public void setHappiness(int happiness) {
+        this.happiness = Math.max(0, Math.min(100, happiness));
+    }
+
+    public List<String> getTraits() {
+        return traits;
+    }
+
+    public LocalDateTime getLastPatAt() {
+        return lastPatAt;
+    }
+
+    public void setLastPatAt(LocalDateTime lastPatAt) {
+        this.lastPatAt = lastPatAt;
+    }
+
+    public LocalDateTime getLastUpdatedAt() {
+        return lastUpdatedAt;
+    }
+
+    public void setLastUpdatedAt(LocalDateTime lastUpdatedAt) {
+        this.lastUpdatedAt = lastUpdatedAt;
+    }
+
+    public int getExperience() {
+        return experience;
+    }
+
+    public void setExperience(int experience) {
+        this.experience = experience;
+    }
+
+    public int getMaxHp() {
+        return maxHp;
+    }
+
+    public int getCurrentHp() {
+        return currentHp;
+    }
+
+    public void setCurrentHp(int currentHp) {
+        this.currentHp = Math.max(0, Math.min(maxHp, currentHp));
+    }
+
+    public int getAttack() {
+        return attack;
+    }
+
+    public int getDefense() {
+        return defense;
+    }
+
+    public LocalDateTime getArenaEndTime() {
+        return arenaEndTime;
+    }
+
+    public void setArenaEndTime(LocalDateTime arenaEndTime) {
+        this.arenaEndTime = arenaEndTime;
+    }
 
     // Новые геттер и сеттер для часов
-    public int getArenaHours() { return arenaHours; }
-    public void setArenaHours(int arenaHours) { this.arenaHours = arenaHours; }
+    public int getArenaHours() {
+        return arenaHours;
+    }
+
+    public void setArenaHours(int arenaHours) {
+        this.arenaHours = arenaHours;
+    }
 }

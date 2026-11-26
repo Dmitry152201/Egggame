@@ -19,7 +19,9 @@ public class GameConfig {
         }
     }
 
-    public boolean isDebugEnabled() { return Boolean.parseBoolean(props.getProperty("debug.enabled", "false")); }
+    public boolean isDebugEnabled() {
+        return Boolean.parseBoolean(props.getProperty("debug.enabled", "false"));
+    }
 
     public long getDailyCooldownSeconds() {
         return isDebugEnabled() ? Long.parseLong(props.getProperty("debug.daily.cooldown.seconds", "20"))

@@ -2,6 +2,7 @@ package com.egggame.service;
 
 import com.egggame.config.GameConfig;
 import com.egggame.model.Player;
+
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
@@ -10,7 +11,10 @@ import java.time.temporal.ChronoUnit;
  */
 public class EggService {
     private final GameConfig config;
-    public EggService(GameConfig config) { this.config = config; }
+
+    public EggService(GameConfig config) {
+        this.config = config;
+    }
 
     public boolean canGetDaily(Player player) {
         if (player.getLastDailyAt() == null) return true;

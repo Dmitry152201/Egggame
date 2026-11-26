@@ -18,6 +18,11 @@ public record CommandResponse(String text, Species species, ReplyKeyboard keyboa
         this(text, species, keyboard, false);
     }
 
-    public boolean hasPhoto() { return species != null; }
-    public boolean hasKeyboard() { return keyboard != null; }
+    public boolean hasPhoto() {
+        return species != null;
+    }
+
+    public boolean hasKeyboard() {
+        return keyboard != null;
+    }
 }

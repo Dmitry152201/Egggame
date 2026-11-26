@@ -45,7 +45,8 @@ public class PetStorage {
         if (!Files.exists(path) || Files.size(path) == 0) return;
 
         try (Reader reader = Files.newBufferedReader(path)) {
-            Type type = new TypeToken<Map<String, Pet>>() {}.getType();
+            Type type = new TypeToken<Map<String, Pet>>() {
+            }.getType();
             Map<String, Pet> loaded = gson.fromJson(reader, type);
             if (loaded != null) {
                 pets.putAll(loaded);
@@ -77,7 +78,9 @@ public class PetStorage {
         return pet;
     }
 
-    public Pet getPet(String petId) { return pets.get(petId); }
+    public Pet getPet(String petId) {
+        return pets.get(petId);
+    }
 
     public List<Pet> getPetsByOwner(long ownerId) {
         return pets.values().stream()
@@ -86,6 +89,17 @@ public class PetStorage {
                 .collect(Collectors.toList());
     }
 
-    public List<Pet> getAllPets() { return new java.util.ArrayList<>(pets.values()); }
-    public void savePet(Pet pet) { pets.put(pet.getId(), pet); save(); }
+    public List<Pet> getAllPets() {
+        return new java.util.ArrayList<>(pets.values());
+    }
+
+    public void savePet(Pet pet) {
+        pets.put(pet.getId(), pet);
+        save();
+    }
+
+    public void deletePet(String petId) {
+        pets.remove(petId);
+        save();
+    }
 }

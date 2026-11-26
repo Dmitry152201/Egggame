@@ -38,18 +38,54 @@ public class Species {
         this.passiveDescription = passiveDescription;
     }
 
-    public String getId() { return id; }
-    public String getName() { return name; }
-    public Rarity getRarity() { return rarity; }
-    public String getDescription() { return description; }
-    public String getImagePath() { return imagePath; }
-    public List<String> getAvailableTraits() { return availableTraits; }
-    public int getBaseHp() { return baseHp; }
-    public int getBaseAttack() { return baseAttack; }
-    public int getBaseDefense() { return baseDefense; }
-    public String getPassiveName() { return passiveName; }
-    public String getPassiveDescription() { return passiveDescription; }
+    public String getId() {
+        return id;
+    }
 
-    /** Проверяет наличие пассивки */
-    public boolean hasPassive() { return passiveName != null && !passiveName.isEmpty(); }
+    public String getName() {
+        return name;
+    }
+
+    public Rarity getRarity() {
+        return rarity;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public List<String> getAvailableTraits() {
+        return availableTraits;
+    }
+
+    public int getBaseHp() {
+        return baseHp;
+    }
+
+    public int getBaseAttack() {
+        return baseAttack;
+    }
+
+    public int getBaseDefense() {
+        return baseDefense;
+    }
+
+    public String getPassiveName() {
+        return passiveName;
+    }
+
+    public String getPassiveDescription() {
+        return passiveDescription;
+    }
+
+    /**
+     * Проверяет наличие пассивки
+     */
+    public boolean hasPassive() {
+        return passiveName != null && !passiveName.isEmpty();
+    }
 }

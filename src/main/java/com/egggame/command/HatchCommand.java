@@ -16,7 +16,9 @@ public class HatchCommand implements Command {
     }
 
     @Override
-    public String getName() { return "/hatch"; }
+    public String getName() {
+        return "/hatch";
+    }
 
     @Override
     public CommandResponse execute(Player player, String[] args) {

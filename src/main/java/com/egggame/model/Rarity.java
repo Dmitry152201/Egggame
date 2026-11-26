@@ -7,23 +7,37 @@ package com.egggame.model;
  */
 public enum Rarity {
 
-    /** Обычный питомец, самый частый дроп */
-    COMMON("⚪ Обычный", 60),
+    /**
+     * Обычный питомец, самый частый дроп
+     */
+    COMMON("⚪ Обычный", 60, 10),
 
-    /** Редкий питомец */
-    RARE("🔵 Редкий", 25),
+    /**
+     * Редкий питомец
+     */
+    RARE("🔵 Редкий", 25, 30),
 
-    /** Эпический питомец */
-    EPIC("🟣 Эпический", 10),
+    /**
+     * Эпический питомец
+     */
+    EPIC("🟣 Эпический", 10, 100),
 
-    /** Легендарный питомец, самый редкий дроп */
-    LEGENDARY("🟡 Легендарный", 5);
+    /**
+     * Легендарный питомец, самый редкий дроп
+     */
+    LEGENDARY("🟡 Легендарный", 5, 300);
 
-    /** Отображаемое имя редкости для игрока */
+    /**
+     * Отображаемое имя редкости для игрока
+     */
     private final String displayName;
 
-    /** Базовый шанс выпадения в процентах */
+    /**
+     * Базовый шанс выпадения в процентах
+     */
     private final int dropChancePercent;
+
+    private final int baseSellPrice;
 
     /**
      * Создаёт уровень редкости.
@@ -31,9 +45,10 @@ public enum Rarity {
      * @param displayName       имя редкости для игрока
      * @param dropChancePercent базовый шанс выпадения в процентах
      */
-    Rarity(String displayName, int dropChancePercent) {
+    Rarity(String displayName, int dropChancePercent, int baseSellPrice) {
         this.displayName = displayName;
         this.dropChancePercent = dropChancePercent;
+        this.baseSellPrice = baseSellPrice;
     }
 
     /**
@@ -53,4 +68,6 @@ public enum Rarity {
     public int getDropChancePercent() {
         return dropChancePercent;
     }
+
+    public int getBaseSellPrice() { return baseSellPrice; }
 }

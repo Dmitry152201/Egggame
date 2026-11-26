@@ -9,7 +9,9 @@ import com.egggame.storage.PlayerStorage;
  */
 public class PlayerService {
 
-    /** Хранилище игроков */
+    /**
+     * Хранилище игроков
+     */
     private final PlayerStorage playerStorage;
 
     /**

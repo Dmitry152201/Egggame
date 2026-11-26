@@ -4,6 +4,7 @@ import com.egggame.config.GameConfig;
 import com.egggame.model.Pet;
 import com.egggame.model.Player;
 import com.egggame.service.PetService;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 
@@ -16,7 +17,10 @@ public class PatCommand implements Command {
         this.config = config;
     }
 
-    @Override public String getName() { return "/pat"; }
+    @Override
+    public String getName() {
+        return "/pat";
+    }
 
     @Override
     public CommandResponse execute(Player player, String[] args) {

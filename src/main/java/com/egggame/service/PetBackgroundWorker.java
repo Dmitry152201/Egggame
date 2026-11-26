@@ -1,6 +1,7 @@
 package com.egggame.service;
 
 import com.egggame.model.Pet;
+
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -17,7 +18,9 @@ public class PetBackgroundWorker {
         this.scheduler = Executors.newSingleThreadScheduledExecutor();
     }
 
-    /** Запуск фонового потока */
+    /**
+     * Запуск фонового потока
+     */
     public void start() {
         scheduler.scheduleAtFixedRate(() -> {
             try {

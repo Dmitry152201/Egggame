@@ -12,7 +12,10 @@ public class PetCommand implements Command {
         this.petService = petService;
     }
 
-    @Override public String getName() { return "/pet"; }
+    @Override
+    public String getName() {
+        return "/pet";
+    }
 
     @Override
     public CommandResponse execute(Player player, String[] args) {

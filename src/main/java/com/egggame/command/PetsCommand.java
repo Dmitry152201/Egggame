@@ -1,13 +1,25 @@
 package com.egggame.command;
+
 import com.egggame.model.Pet;
 import com.egggame.model.Player;
 import com.egggame.service.PetService;
+
 import java.util.List;
+
 public class PetsCommand implements Command {
     private final PetService petService;
-    public PetsCommand(PetService petService) { this.petService = petService; }
-    @Override public String getName() { return "/pets"; }
-    @Override public CommandResponse execute(Player player, String[] args) {
+
+    public PetsCommand(PetService petService) {
+        this.petService = petService;
+    }
+
+    @Override
+    public String getName() {
+        return "/pets";
+    }
+
+    @Override
+    public CommandResponse execute(Player player, String[] args) {
         List<Pet> pets = petService.getPlayerPets(player);
         if (pets.isEmpty()) return new CommandResponse("🐾 Коллекция пуста. Используй /incubate.", null, null);
 
